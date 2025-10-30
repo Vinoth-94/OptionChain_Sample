@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: "./",
   server: {
     // This section tells Vite to proxy requests starting with /api/nse
     proxy: {
