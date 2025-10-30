@@ -13,7 +13,7 @@ function App() {
   const [expirydate, setexpirydate] = useState([]);
   const [underlyingValue, setunderlyingValue] = useState();
   async function apiFetchData(symbol) {
-    let url = `/api/nse/api/option-chain-indices?symbol=${symbol}`;
+    let url = `https://www.nseindia.com/api/option-chain-indices?symbol=${symbol}`;
     let options = {
       method: "GET",
       headers: {
