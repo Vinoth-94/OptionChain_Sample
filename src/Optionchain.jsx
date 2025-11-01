@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import refresh from "./assets/refresh.svg";
 import Tablecontent from "./Tablecontent";
 
@@ -10,15 +10,17 @@ const Optionchain = ({
   symbol,
   expirydate,
   underlyingValue,
+  putlist,
+  calllist,
+  setshowchart,
+  underlying,
 }) => {
   if (!data) {
     return <div className="loading">Loading...</div>;
   }
+
   const { filtered } = data;
-  // var date = new Date();
-  // console.log(underlyingValue);
-  // var time = records.timestamp;
-  // console.log(time);
+
   return (
     <>
       <section id="optionchn">
@@ -32,7 +34,7 @@ const Optionchain = ({
                   </a>
                 </li>
                 <li className="nav-tab">
-                  <a href="javascript:void(0)">Currency Stock</a>
+                  <a href="#">Currency Stock</a>
                 </li>
               </ul>
             </div>
@@ -124,14 +126,14 @@ const Optionchain = ({
                     <div className="col-6 col">
                       <span>Underlying Index : </span>
                       <span style={{ fontWeight: "bold" }}>
-                        NIFTY {underlyingValue}
+                        {underlying} {underlyingValue.toLocaleString()}
                       </span>
                       <span className="ondate">
                         {/* As on {date.toDateString()} {date.toLocaleTimeString()} */}
                       </span>
                       <span className="ondate">As on {time}</span>
                       <span className="refresh">
-                        <a href="Javascript:[0]">
+                        <a href="#">
                           <img src={refresh} alt="refresh" />
                         </a>
                       </span>
@@ -183,11 +185,20 @@ const Optionchain = ({
                               colSpan={23}
                               style={{ fontSize: "20px", padding: "10px" }}
                             >
-                              loading.....
+                              loading
+                              <span
+                                style={{ display: "inline-block" }}
+                                className="loader"
+                              ></span>
                             </td>
                           </tr>
                         ) : (
-                          <Tablecontent filteredata={filtered} />
+                          <Tablecontent
+                            filteredata={filtered}
+                            putlist={putlist}
+                            calllist={calllist}
+                            setshowchart={setshowchart}
+                          />
                         )}
                         {/* <tr>
                           <td>Total</td>

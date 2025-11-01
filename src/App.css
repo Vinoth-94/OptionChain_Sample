@@ -90,6 +90,11 @@ a {
 
 .col-12 {
   flex: 0 0 100%;
+  width: 100%;
+}
+.col-8 {
+  flex: 0 0 66.66666%;
+  width: 66.6666%;
 }
 
 /* option section */
@@ -190,9 +195,97 @@ a {
   text-decoration: underline;
   font-weight: 600;
 }
-.option-tbl tbody tr.bg-grn-act .bg-grn {
+.option-tbl tbody tr.bg-grn {
   background-color: #86ff8c7d;
 }
-.option-tbl tbody tr.bg-red-act .bg-red {
+.option-tbl tbody tr.bg-red {
   background-color: #ff86867d;
+}
+
+/* popupchart */
+.chartpopup {
+  background: #0a0a0a80;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 10000;
+  display: none;
+  visibility: hidden;
+}
+.popup-box {
+  max-width: 500px;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.chart-header {
+  padding: 10px 10px 10px 17px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+.chart-header h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+}
+.chart-info-card {
+  padding-top: 10px;
+}
+.chart-info-card .row {
+  margin: 0 -15px;
+}
+
+.chart-info-card ul {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  margin-bottom: 5px;
+}
+.chart-info-card ul li {
+  font-size: 13px;
+  color: #4a4a4a;
+  line-height: 1.8;
+}
+.chart-info-card ul li span {
+  display: block;
+}
+.option-chain-chart-area {
+  padding: 10px;
+}
+
+footer {
+  padding: 20px 0 20px;
+  background-color: #3a2d7d;
+}
+.footer-wrap {
+  text-align: center;
+
+  color: #fff;
+  white-space: normal;
+  width: 100%;
+}
+.show {
+  display: block;
+  visibility: visible;
+}
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 60px;
+  aspect-ratio: 4;
+  background: radial-gradient(circle closest-side, #000 90%, #0000) 0 /
+    calc(100% / 3) 100% no-repeat;
+  animation: l2 1s steps(3) infinite;
+}
+@keyframes l2 {
+  to {
+    background-position: 150%;
+  }
 }

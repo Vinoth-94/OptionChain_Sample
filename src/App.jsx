@@ -4,16 +4,23 @@ import "./App.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import Optionchain from "./Optionchain";
+import Chartpopup from "./Chartpopup";
 
 function App() {
   const [symbol, setSymbol] = useState("NIFTY");
+  const [calllist, setcalllist] = useState([]);
+  const [putlist, setputlist] = useState([]);
   const [data, setdata] = useState({});
   const [loader, setLoader] = useState(false);
   const [time, settime] = useState("");
   const [expirydate, setexpirydate] = useState([]);
-  const [underlyingValue, setunderlyingValue] = useState();
+  const [underlyingValue, setunderlyingValue] = useState(1);
+  const [showchart, setshowchart] = useState(false);
+  const [underlying, setunderlying] = useState("");
+
   async function apiFetchData(symbol) {
-    let url = `https://www.nseindia.com/api/option-chain-indices?symbol=${symbol}`;
+    let url = `https://cors-anywhere.herokuapp.com/www.nseindia.com/api/option-chain-indices?symbol=${symbol}`;
+    // let url = `/api/nse/api/option-chain-indices?symbol=${symbol}`;
     let options = {
       method: "GET",
       headers: {
@@ -24,6 +31,7 @@ function App() {
     try {
       const response = await fetch(url, { options });
       let data = await response.json();
+      console.log(data.filtered);
       console.log(data);
       return data;
     } catch (error) {
@@ -32,6 +40,7 @@ function App() {
   }
 
   useEffect(() => {
+    console.log = function () {};
     const fetchdata = async () => {
       setLoader(true);
       let data = await apiFetchData(symbol);
@@ -40,10 +49,37 @@ function App() {
         settime(data.records.timestamp);
         setexpirydate(data.records.expiryDates);
         setunderlyingValue(data.records.underlyingValue);
+        setunderlying(data.filtered.data[0].CE.underlying);
+        console.log(
+          data.filtered.data[0].PE?.openInterest
+            ? data.filtered.data[0].PE?.openInterest
+            : 0
+        );
+        setputlist(
+          [
+            ...new Set(
+              data.filtered.data.map(
+                (d) => (!d.PE?.openInterest ? 0 : d.PE.openInterest)
+
+                // if () { 0 ;} ;
+              )
+            ),
+          ].sort((a, b) => a - b)
+        );
+        setcalllist(
+          [
+            ...new Set(
+              data.filtered.data.map((d) =>
+                !d.CE?.openInterest ? 0 : d.CE.openInterest
+              )
+            ),
+          ].sort((a, b) => a - b)
+        );
       }
       setLoader(false);
     };
     fetchdata();
+    console.log(putlist);
   }, [symbol]);
 
   return (
@@ -58,7 +94,22 @@ function App() {
         time={time}
         expirydate={expirydate}
         underlyingValue={underlyingValue}
+        putlist={putlist}
+        calllist={calllist}
+        setshowchart={setshowchart}
+        underlying={underlying}
       />
+      {showchart && (
+        <Chartpopup
+          putlist={putlist}
+          calllist={calllist}
+          showchart={showchart}
+          setshowchart={setshowchart}
+          symbol={symbol}
+          expirydate={expirydate}
+          underlyingValue={underlyingValue}
+        />
+      )}
 
       <Footer />
     </div>
